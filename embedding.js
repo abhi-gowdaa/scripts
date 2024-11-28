@@ -327,6 +327,113 @@
 // })();
 
 
+// (function () {
+//     const scriptTag = document.currentScript;
+//     const mode = scriptTag.getAttribute('data-mode') || 'embedded'; // Default mode is embedded
+
+//     // Define the container for embedding
+//     const containerId = scriptTag.getAttribute('data-container-id') || 'chatbot-container';
+//     const width = scriptTag.getAttribute('data-width') || '400px';
+//     const height = scriptTag.getAttribute('data-height') || '600px';
+//     const appUrl = scriptTag.getAttribute('data-app-url') || 'https://your-app-hosted-url.com'; // URL to the hosted React app
+
+//     // Create the container div for embedding (in case of embedded mode)
+//     const container = document.createElement('div');
+//     container.id = containerId;
+//     container.style.width = width;
+//     container.style.height = height;
+//     container.style.position = 'relative';
+//     document.body.appendChild(container);
+
+//     if (mode === 'popup') {
+//         // Create a button for popup mode with an image inside
+//         const button = document.createElement('button');
+//         button.style.position = 'fixed';
+//         button.style.bottom = '20px';
+//         button.style.right = '20px';
+//         button.style.zIndex = '1000';
+//         button.style.padding = '10px 20px';
+//         button.style.border = 'none';
+//         button.style.backgroundColor = '#007bff';
+//         button.style.color = '#fff';
+//         button.style.fontSize = '16px';
+//         button.style.cursor = 'pointer';
+//         button.style.borderRadius = '5px';
+//         button.style.display = 'flex';
+//         button.style.alignItems = 'center';
+//         button.style.justifyContent = 'center';
+
+//         // Button content (image)
+//         const buttonImage = document.createElement('img');
+//         buttonImage.src = 'https://blaash.io/wp-content/uploads/2021/05/logo.png'; // Replace with your button image URL
+//         buttonImage.alt = 'Open Chatbot';
+//         buttonImage.style.width = '20px';
+//         buttonImage.style.height = '20px';
+//         button.style.marginRight = '8px'; // Space between image and text
+
+//         button.appendChild(buttonImage);
+//         button.appendChild(document.createTextNode('Open Chatbot'));
+
+//         // Add the button to the page
+//         document.body.appendChild(button);
+
+//         // Create a modal overlay and iframe that will appear when the button is clicked
+//         const modalOverlay = document.createElement('div');
+//         modalOverlay.style.position = 'fixed';
+//         modalOverlay.style.top = '0';
+//         modalOverlay.style.left = '0';
+//         modalOverlay.style.width = '100vw';
+//         modalOverlay.style.height = '100vh';
+//         modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+//         modalOverlay.style.zIndex = '999';
+//         modalOverlay.style.display = 'none'; // Initially hidden
+
+//         const iframe = document.createElement('iframe');
+//         iframe.src = appUrl;
+//         iframe.style.width = width;
+//         iframe.style.height = height;
+//         iframe.style.border = 'none';
+//         iframe.style.position = 'absolute';
+//         iframe.style.top = '50%';
+//         iframe.style.left = '50%';
+//         iframe.style.transform = 'translate(-50%, -50%)';
+
+//         modalOverlay.appendChild(iframe);
+//         document.body.appendChild(modalOverlay);
+
+//         // Show the modal when button is clicked
+//         button.addEventListener('click', () => {
+//             modalOverlay.style.display = 'block'; // Show the modal
+//         });
+
+//         // Close the modal when the overlay is clicked
+//         modalOverlay.addEventListener('click', () => {
+//             modalOverlay.style.display = 'none'; // Hide the modal
+//         });
+
+//         // Prevent the iframe from closing the modal when clicked
+//         iframe.addEventListener('click', (event) => {
+//             event.stopPropagation();
+//         });
+//     } else {
+//         // Embed the React app using an iframe (if embedded mode is selected)
+//         const iframe = document.createElement('iframe');
+//         iframe.src = appUrl;
+//         iframe.style.width = '100%';
+//         iframe.style.height = '100%';
+//         iframe.style.border = 'none';
+//         iframe.onload = () => {
+//             console.log('React app loaded successfully!');
+//         };
+//         iframe.onerror = () => {
+//             console.error('Error loading React app.');
+//             alert('There was an error loading the app. Please try again later.');
+//         };
+//         container.appendChild(iframe);
+//     }
+// })();
+
+
 (function () {
     const scriptTag = document.currentScript;
     const mode = scriptTag.getAttribute('data-mode') || 'embedded'; // Default mode is embedded
@@ -377,26 +484,25 @@
         // Add the button to the page
         document.body.appendChild(button);
 
-        // Create a modal overlay and iframe that will appear when the button is clicked
+        // Create a floating modal (overlay) and iframe that will appear when the button is clicked
         const modalOverlay = document.createElement('div');
         modalOverlay.style.position = 'fixed';
-        modalOverlay.style.top = '0';
-        modalOverlay.style.left = '0';
-        modalOverlay.style.width = '100vw';
-        modalOverlay.style.height = '100vh';
-        modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        modalOverlay.style.bottom = '80px'; // Adjust for better positioning above the button
+        modalOverlay.style.right = '20px';
+        modalOverlay.style.width = width;
+        modalOverlay.style.height = height;
+        modalOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+        modalOverlay.style.border = '1px solid #ccc';
+        modalOverlay.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
         modalOverlay.style.zIndex = '999';
         modalOverlay.style.display = 'none'; // Initially hidden
+        modalOverlay.style.borderRadius = '10px'; // Rounded corners for the modal
 
         const iframe = document.createElement('iframe');
         iframe.src = appUrl;
-        iframe.style.width = width;
-        iframe.style.height = height;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
         iframe.style.border = 'none';
-        iframe.style.position = 'absolute';
-        iframe.style.top = '50%';
-        iframe.style.left = '50%';
-        iframe.style.transform = 'translate(-50%, -50%)';
 
         modalOverlay.appendChild(iframe);
         document.body.appendChild(modalOverlay);
@@ -407,7 +513,8 @@
         });
 
         // Close the modal when the overlay is clicked
-        modalOverlay.addEventListener('click', () => {
+        modalOverlay.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent closing when clicking inside the iframe
             modalOverlay.style.display = 'none'; // Hide the modal
         });
 
