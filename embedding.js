@@ -540,7 +540,7 @@
 //     }
 // })();
 
-
+//working 100%
 (function () {
     // Define mode (popup or embedded)
     const scriptTag = document.currentScript;
@@ -550,9 +550,19 @@
     
     // Create the button to trigger the chatbot display
     const button = document.createElement('button');
-    button.innerText = buttonText;
+    // button.innerText = buttonText;
     button.style.position = 'fixed';
     button.style.zIndex = '1000';
+
+    const buttonImage = document.createElement('img');
+        buttonImage.src = 'https://blaash.io/wp-content/uploads/2021/05/logo.png'; // Replace with your button image URL
+        buttonImage.alt = 'Open Chatbot';
+        buttonImage.style.width = '20px';
+        buttonImage.style.height = '20px';
+        button.style.marginRight = '8px'; // Space between image and text
+
+        button.appendChild(buttonImage);
+        button.appendChild(document.createTextNode('Open Chatbot'));
 
     // Button positioning (can adjust as needed)
     if (buttonPosition === 'bottom-right') {
