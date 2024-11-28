@@ -434,108 +434,174 @@
 // })();
 
 
-(function () {
-    const scriptTag = document.currentScript;
-    const mode = scriptTag.getAttribute('data-mode') || 'embedded'; // Default mode is embedded
+// (function () {
+//     const scriptTag = document.currentScript;
+//     const mode = scriptTag.getAttribute('data-mode') || 'embedded'; // Default mode is embedded
 
-    // Define the container for embedding
+//     // Define the container for embedding
+//     const containerId = scriptTag.getAttribute('data-container-id') || 'chatbot-container';
+//     const width = scriptTag.getAttribute('data-width') || '400px';
+//     const height = scriptTag.getAttribute('data-height') || '600px';
+//     const appUrl = scriptTag.getAttribute('data-app-url') || 'https://your-app-hosted-url.com'; // URL to the hosted React app
+
+//     // Create the container div for embedding (in case of embedded mode)
+//     const container = document.createElement('div');
+//     container.id = containerId;
+//     container.style.width = width;
+//     container.style.height = height;
+//     container.style.position = 'relative';
+//     document.body.appendChild(container);
+
+//     if (mode === 'popup') {
+//         // Create a button for popup mode with an image inside
+//         const button = document.createElement('button');
+//         button.style.position = 'fixed';
+//         button.style.bottom = '20px';
+//         button.style.right = '20px';
+//         button.style.zIndex = '1000';
+//         button.style.padding = '10px 20px';
+//         button.style.border = 'none';
+//         button.style.backgroundColor = '#007bff';
+//         button.style.color = '#fff';
+//         button.style.fontSize = '16px';
+//         button.style.cursor = 'pointer';
+//         button.style.borderRadius = '5px';
+//         button.style.display = 'flex';
+//         button.style.alignItems = 'center';
+//         button.style.justifyContent = 'center';
+
+//         // Button content (image)
+//         const buttonImage = document.createElement('img');
+//         buttonImage.src = 'https://blaash.io/wp-content/uploads/2021/05/logo.png'; // Replace with your button image URL
+//         buttonImage.alt = 'Open Chatbot';
+//         buttonImage.style.width = '20px';
+//         buttonImage.style.height = '20px';
+//         button.style.marginRight = '8px'; // Space between image and text
+
+//         button.appendChild(buttonImage);
+//         button.appendChild(document.createTextNode('Open Chatbot'));
+
+//         // Add the button to the page
+//         document.body.appendChild(button);
+
+//         // Create a floating modal (overlay) and iframe that will appear when the button is clicked
+//         const modalOverlay = document.createElement('div');
+//         modalOverlay.style.position = 'fixed';
+//         modalOverlay.style.bottom = '80px'; // Adjust for better positioning above the button
+//         modalOverlay.style.right = '20px';
+//         modalOverlay.style.width = width;
+//         modalOverlay.style.height = height;
+//         modalOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+//         modalOverlay.style.border = '1px solid #ccc';
+//         modalOverlay.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+//         modalOverlay.style.zIndex = '999';
+//         modalOverlay.style.display = 'none'; // Initially hidden
+//         modalOverlay.style.borderRadius = '10px'; // Rounded corners for the modal
+
+//         const iframe = document.createElement('iframe');
+//         iframe.src = appUrl;
+//         iframe.style.width = '100%';
+//         iframe.style.height = '100%';
+//         iframe.style.border = 'none';
+
+//         modalOverlay.appendChild(iframe);
+//         document.body.appendChild(modalOverlay);
+
+//         // Show the modal when button is clicked
+//         button.addEventListener('click', () => {
+//             modalOverlay.style.display = 'block'; // Show the modal
+//         });
+
+//         // Close the modal when the overlay is clicked
+//         modalOverlay.addEventListener('click', (event) => {
+//             event.stopPropagation(); // Prevent closing when clicking inside the iframe
+//             modalOverlay.style.display = 'none'; // Hide the modal
+//         });
+
+//         // Prevent the iframe from closing the modal when clicked
+//         iframe.addEventListener('click', (event) => {
+//             event.stopPropagation();
+//         });
+//     } else {
+//         // Embed the React app using an iframe (if embedded mode is selected)
+//         const iframe = document.createElement('iframe');
+//         iframe.src = appUrl;
+//         iframe.style.width = '100%';
+//         iframe.style.height = '100%';
+//         iframe.style.border = 'none';
+//         iframe.onload = () => {
+//             console.log('React app loaded successfully!');
+//         };
+//         iframe.onerror = () => {
+//             console.error('Error loading React app.');
+//             alert('There was an error loading the app. Please try again later.');
+//         };
+//         container.appendChild(iframe);
+//     }
+// })();
+
+
+(function () {
+    // Define mode (popup or embedded)
+    const scriptTag = document.currentScript;
+    const mode = scriptTag.getAttribute('data-mode') || 'embedded';
+    const buttonText = scriptTag.getAttribute('data-button-text') || 'Open Chatbot';
+    const buttonPosition = scriptTag.getAttribute('data-button-position') || 'bottom-right';
+    
+    // Create the button to trigger the chatbot display
+    const button = document.createElement('button');
+    button.innerText = buttonText;
+    button.style.position = 'fixed';
+    button.style.zIndex = '1000';
+
+    // Button positioning (can adjust as needed)
+    if (buttonPosition === 'bottom-right') {
+        button.style.bottom = '20px';
+        button.style.right = '20px';
+    } else if (buttonPosition === 'bottom-left') {
+        button.style.bottom = '20px';
+        button.style.left = '20px';
+    } else if (buttonPosition === 'top-right') {
+        button.style.top = '20px';
+        button.style.right = '20px';
+    } else if (buttonPosition === 'top-left') {
+        button.style.top = '20px';
+        button.style.left = '20px';
+    }
+
+    document.body.appendChild(button);
+
+    // Create the container for the embedded content (chatbot)
     const containerId = scriptTag.getAttribute('data-container-id') || 'chatbot-container';
     const width = scriptTag.getAttribute('data-width') || '400px';
     const height = scriptTag.getAttribute('data-height') || '600px';
-    const appUrl = scriptTag.getAttribute('data-app-url') || 'https://your-app-hosted-url.com'; // URL to the hosted React app
+    
+    const chatbotDiv = document.createElement('div');
+    chatbotDiv.id = containerId;
+    chatbotDiv.style.width = width;
+    chatbotDiv.style.height = height;
+    chatbotDiv.style.position = 'fixed';
+    chatbotDiv.style.bottom = '20px'; // Default position
+    chatbotDiv.style.right = '20px';  // Default position
+    chatbotDiv.style.border = '1px solid #ccc';
+    chatbotDiv.style.overflow = 'hidden';
+    chatbotDiv.style.boxShadow = '0px 4px 10px rgba(0, 0, 0, 0.1)';
+    chatbotDiv.style.display = 'none';  // Initially hidden
+    document.body.appendChild(chatbotDiv);
 
-    // Create the container div for embedding (in case of embedded mode)
-    const container = document.createElement('div');
-    container.id = containerId;
-    container.style.width = width;
-    container.style.height = height;
-    container.style.position = 'relative';
-    document.body.appendChild(container);
+    const iframe = document.createElement('iframe');
+    iframe.src = scriptTag.getAttribute('data-app-url') // Update this URL
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    chatbotDiv.appendChild(iframe);
 
-    if (mode === 'popup') {
-        // Create a button for popup mode with an image inside
-        const button = document.createElement('button');
-        button.style.position = 'fixed';
-        button.style.bottom = '20px';
-        button.style.right = '20px';
-        button.style.zIndex = '1000';
-        button.style.padding = '10px 20px';
-        button.style.border = 'none';
-        button.style.backgroundColor = '#007bff';
-        button.style.color = '#fff';
-        button.style.fontSize = '16px';
-        button.style.cursor = 'pointer';
-        button.style.borderRadius = '5px';
-        button.style.display = 'flex';
-        button.style.alignItems = 'center';
-        button.style.justifyContent = 'center';
-
-        // Button content (image)
-        const buttonImage = document.createElement('img');
-        buttonImage.src = 'https://blaash.io/wp-content/uploads/2021/05/logo.png'; // Replace with your button image URL
-        buttonImage.alt = 'Open Chatbot';
-        buttonImage.style.width = '20px';
-        buttonImage.style.height = '20px';
-        button.style.marginRight = '8px'; // Space between image and text
-
-        button.appendChild(buttonImage);
-        button.appendChild(document.createTextNode('Open Chatbot'));
-
-        // Add the button to the page
-        document.body.appendChild(button);
-
-        // Create a floating modal (overlay) and iframe that will appear when the button is clicked
-        const modalOverlay = document.createElement('div');
-        modalOverlay.style.position = 'fixed';
-        modalOverlay.style.bottom = '80px'; // Adjust for better positioning above the button
-        modalOverlay.style.right = '20px';
-        modalOverlay.style.width = width;
-        modalOverlay.style.height = height;
-        modalOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-        modalOverlay.style.border = '1px solid #ccc';
-        modalOverlay.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-        modalOverlay.style.zIndex = '999';
-        modalOverlay.style.display = 'none'; // Initially hidden
-        modalOverlay.style.borderRadius = '10px'; // Rounded corners for the modal
-
-        const iframe = document.createElement('iframe');
-        iframe.src = appUrl;
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-
-        modalOverlay.appendChild(iframe);
-        document.body.appendChild(modalOverlay);
-
-        // Show the modal when button is clicked
-        button.addEventListener('click', () => {
-            modalOverlay.style.display = 'block'; // Show the modal
-        });
-
-        // Close the modal when the overlay is clicked
-        modalOverlay.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent closing when clicking inside the iframe
-            modalOverlay.style.display = 'none'; // Hide the modal
-        });
-
-        // Prevent the iframe from closing the modal when clicked
-        iframe.addEventListener('click', (event) => {
-            event.stopPropagation();
-        });
-    } else {
-        // Embed the React app using an iframe (if embedded mode is selected)
-        const iframe = document.createElement('iframe');
-        iframe.src = appUrl;
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-        iframe.onload = () => {
-            console.log('React app loaded successfully!');
-        };
-        iframe.onerror = () => {
-            console.error('Error loading React app.');
-            alert('There was an error loading the app. Please try again later.');
-        };
-        container.appendChild(iframe);
-    }
+    // Button click event to toggle the embedded content (chatbot)
+    button.addEventListener('click', () => {
+        if (chatbotDiv.style.display === 'none') {
+            chatbotDiv.style.display = 'block';  // Show chatbot
+        } else {
+            chatbotDiv.style.display = 'none';  // Hide chatbot
+        }
+    });
 })();
