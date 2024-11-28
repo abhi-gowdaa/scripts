@@ -191,64 +191,66 @@
 //     });
 // })();
 
-(function () {
-    const scriptTag = document.currentScript;
-    const mode = scriptTag.getAttribute('data-mode') || 'embedded'; // Default mode is embedded
 
-    // Define the container for embedding
-    const containerId = scriptTag.getAttribute('data-container-id') || 'chatbot-container';
-    const width = scriptTag.getAttribute('data-width') || '400px';
-    const height = scriptTag.getAttribute('data-height') || '600px';
-    const appUrl = scriptTag.getAttribute('data-app-url') || 'https://your-app-hosted-url.com'; // URL to the hosted React app
+//working
+// (function () {
+//     const scriptTag = document.currentScript;
+//     const mode = scriptTag.getAttribute('data-mode') || 'embedded'; // Default mode is embedded
 
-    // Create the container div for embedded React app
-    const container = document.createElement('div');
-    container.id = containerId;
-    container.style.width = width;
-    container.style.height = height;
-    container.style.position = 'relative';
-    document.body.appendChild(container);
+//     // Define the container for embedding
+//     const containerId = scriptTag.getAttribute('data-container-id') || 'chatbot-container';
+//     const width = scriptTag.getAttribute('data-width') || '400px';
+//     const height = scriptTag.getAttribute('data-height') || '600px';
+//     const appUrl = scriptTag.getAttribute('data-app-url') || 'https://your-app-hosted-url.com'; // URL to the hosted React app
 
-    if (mode === 'popup') {
-        // Create a button for popup mode with image inside
-        const button = document.createElement('button');
-        button.style.position = 'fixed';
-        button.style.bottom = '20px';
-        button.style.right = '20px';
-        button.style.zIndex = '1000';
+//     // Create the container div for embedded React app
+//     const container = document.createElement('div');
+//     container.id = containerId;
+//     container.style.width = width;
+//     container.style.height = height;
+//     container.style.position = 'relative';
+//     document.body.appendChild(container);
 
-        // Button content (image)
-        const buttonImage = document.createElement('img');
-        buttonImage.src = 'https://blaash.io/wp-content/uploads/2021/05/logo.png'; // Replace with your button image URL
-        buttonImage.alt = 'Open Chatbot';
-        buttonImage.style.width = '50px';
-        buttonImage.style.height = '50px';
-        button.appendChild(buttonImage);
+//     if (mode === 'popup') {
+//         // Create a button for popup mode with image inside
+//         const button = document.createElement('button');
+//         button.style.position = 'fixed';
+//         button.style.bottom = '20px';
+//         button.style.right = '20px';
+//         button.style.zIndex = '1000';
 
-        // Add the button to the page
-        document.body.appendChild(button);
+//         // Button content (image)
+//         const buttonImage = document.createElement('img');
+//         buttonImage.src = 'https://blaash.io/wp-content/uploads/2021/05/logo.png'; // Replace with your button image URL
+//         buttonImage.alt = 'Open Chatbot';
+//         buttonImage.style.width = '50px';
+//         buttonImage.style.height = '50px';
+//         button.appendChild(buttonImage);
 
-        // Open app in a new window when button is clicked
-        button.addEventListener('click', () => {
-            window.open(appUrl, '_blank', 'width=800,height=600');
-        });
-    } else {
-        // Embed the React app using an iframe
-        const iframe = document.createElement('iframe');
-        iframe.src = appUrl;
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-        iframe.onload = () => {
-            console.log('React app loaded successfully!');
-        };
-        iframe.onerror = () => {
-            console.error('Error loading React app.');
-            alert('There was an error loading the app. Please try again later.');
-        };
-        container.appendChild(iframe);
-    }
-})();
+//         // Add the button to the page
+//         document.body.appendChild(button);
+
+//         // Open app in a new window when button is clicked
+//         button.addEventListener('click', () => {
+//             window.open(appUrl, '_blank', 'width=800,height=600');
+//         });
+//     } else {
+//         // Embed the React app using an iframe
+//         const iframe = document.createElement('iframe');
+//         iframe.src = appUrl;
+//         iframe.style.width = '100%';
+//         iframe.style.height = '100%';
+//         iframe.style.border = 'none';
+//         iframe.onload = () => {
+//             console.log('React app loaded successfully!');
+//         };
+//         iframe.onerror = () => {
+//             console.error('Error loading React app.');
+//             alert('There was an error loading the app. Please try again later.');
+//         };
+//         container.appendChild(iframe);
+//     }
+// })();
 
 
 
@@ -323,3 +325,110 @@
 //         container.appendChild(iframe);
 //     }
 // })();
+
+
+(function () {
+    const scriptTag = document.currentScript;
+    const mode = scriptTag.getAttribute('data-mode') || 'embedded'; // Default mode is embedded
+
+    // Define the container for embedding
+    const containerId = scriptTag.getAttribute('data-container-id') || 'chatbot-container';
+    const width = scriptTag.getAttribute('data-width') || '400px';
+    const height = scriptTag.getAttribute('data-height') || '600px';
+    const appUrl = scriptTag.getAttribute('data-app-url') || 'https://your-app-hosted-url.com'; // URL to the hosted React app
+
+    // Create the container div for embedding (in case of embedded mode)
+    const container = document.createElement('div');
+    container.id = containerId;
+    container.style.width = width;
+    container.style.height = height;
+    container.style.position = 'relative';
+    document.body.appendChild(container);
+
+    if (mode === 'popup') {
+        // Create a button for popup mode with an image inside
+        const button = document.createElement('button');
+        button.style.position = 'fixed';
+        button.style.bottom = '20px';
+        button.style.right = '20px';
+        button.style.zIndex = '1000';
+        button.style.padding = '10px 20px';
+        button.style.border = 'none';
+        button.style.backgroundColor = '#007bff';
+        button.style.color = '#fff';
+        button.style.fontSize = '16px';
+        button.style.cursor = 'pointer';
+        button.style.borderRadius = '5px';
+        button.style.display = 'flex';
+        button.style.alignItems = 'center';
+        button.style.justifyContent = 'center';
+
+        // Button content (image)
+        const buttonImage = document.createElement('img');
+        buttonImage.src = 'https://blaash.io/wp-content/uploads/2021/05/logo.png'; // Replace with your button image URL
+        buttonImage.alt = 'Open Chatbot';
+        buttonImage.style.width = '20px';
+        buttonImage.style.height = '20px';
+        button.style.marginRight = '8px'; // Space between image and text
+
+        button.appendChild(buttonImage);
+        button.appendChild(document.createTextNode('Open Chatbot'));
+
+        // Add the button to the page
+        document.body.appendChild(button);
+
+        // Create a modal overlay and iframe that will appear when the button is clicked
+        const modalOverlay = document.createElement('div');
+        modalOverlay.style.position = 'fixed';
+        modalOverlay.style.top = '0';
+        modalOverlay.style.left = '0';
+        modalOverlay.style.width = '100vw';
+        modalOverlay.style.height = '100vh';
+        modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        modalOverlay.style.zIndex = '999';
+        modalOverlay.style.display = 'none'; // Initially hidden
+
+        const iframe = document.createElement('iframe');
+        iframe.src = appUrl;
+        iframe.style.width = width;
+        iframe.style.height = height;
+        iframe.style.border = 'none';
+        iframe.style.position = 'absolute';
+        iframe.style.top = '50%';
+        iframe.style.left = '50%';
+        iframe.style.transform = 'translate(-50%, -50%)';
+
+        modalOverlay.appendChild(iframe);
+        document.body.appendChild(modalOverlay);
+
+        // Show the modal when button is clicked
+        button.addEventListener('click', () => {
+            modalOverlay.style.display = 'block'; // Show the modal
+        });
+
+        // Close the modal when the overlay is clicked
+        modalOverlay.addEventListener('click', () => {
+            modalOverlay.style.display = 'none'; // Hide the modal
+        });
+
+        // Prevent the iframe from closing the modal when clicked
+        iframe.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    } else {
+        // Embed the React app using an iframe (if embedded mode is selected)
+        const iframe = document.createElement('iframe');
+        iframe.src = appUrl;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.onload = () => {
+            console.log('React app loaded successfully!');
+        };
+        iframe.onerror = () => {
+            console.error('Error loading React app.');
+            alert('There was an error loading the app. Please try again later.');
+        };
+        container.appendChild(iframe);
+    }
+})();
